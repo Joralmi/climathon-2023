@@ -4,7 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8f445096-01f1-40e5-9cc0-02278aefb0ff" name="Changes" comment="" />
+    <list default="true" id="8f445096-01f1-40e5-9cc0-02278aefb0ff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/climathon/clima_api/verticles/ApiVerticle.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/api.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/doc/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/redoc/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/favicon-16x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/favicon-32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/oauth2-redirect.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-initializer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-bundle.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle-core.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle-core.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-standalone-preset.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-standalone-preset.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/climathon/clima_api/MainVerticle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/climathon/clima_api/MainVerticle.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +55,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -41,9 +76,15 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/jorgemac/Desktop/climathon/2023/clima-api/src/main"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="run-clima-api" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />

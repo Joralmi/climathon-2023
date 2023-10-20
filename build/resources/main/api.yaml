@@ -1,0 +1,475 @@
+openapi: 3.0.1
+info:
+  title: SouthBound API
+  version: '0.0.1'
+#servers:
+#  - url: http://localhost:8081
+paths:
+  /api/registrations:
+    post:
+      description: Register your device with Thing Description
+      tags:
+        - Registrations
+      operationId: registerThing
+      requestBody:
+        description: Thing description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericJson'
+      responses:
+        '201':
+          description: Registered
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+    get:
+      # One or many
+      description: Retrieve your registered Thing Descriptions
+      tags:
+        - Registrations
+      operationId: getThing
+      parameters:
+        - name: oid
+          schema:
+            type: string
+          required: false
+          in: query
+        # TODO: ADD some type of adapterId?
+        - name: limit
+          schema:
+            type: integer
+          required: false
+          in: query
+        - name: offset
+          schema:
+            type: integer
+          required: false
+          in: query
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TdObject"
+                  - $ref: "#/components/schemas/TdObjectArray"
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+    put:
+      description: Update registered Thing Description
+      tags:
+        - Registrations
+      operationId: updateThing
+      requestBody:
+        description: Updated Thing Description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericJson'
+      responses:
+        '200':
+          description: Thing Description updated
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+    delete:
+      description: Unregister devices from the platform
+      tags:
+        - Registrations
+      operationId: deleteThing
+      parameters:
+        - name: oid
+          schema:
+            type: string
+          required: true
+          in: query
+        # TODO: ADD some type of adapterId?
+      responses:
+        '204':
+          description: Thing unregistered
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+  /api/discovery/local/semantic:
+    post:
+      description: Send SPARQL query
+      tags:
+        - Discovery
+      operationId: sendSparql
+      requestBody:
+        description: SPARQL Query
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: SPARQL result
+          content:
+            text/plain:
+              schema:
+                type: string
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+  /api/discovery/local/jsonpath:
+    post:
+      description: Send JSONPath query
+      tags:
+        - Discovery
+      operationId: sendJsonPath
+      requestBody:
+        description: JSONPath Query
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: JSONPath result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericJson'
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+  /api/adapter:
+    get:
+      description: Retrieve your registered Adapters
+      tags:
+        - Adapter management
+      operationId: getAdapter
+      parameters:
+        - name: id
+          schema:
+            type: string
+          required: false
+          in: query
+      responses:
+        '200':
+          description: getAdapter response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AdapterObject"
+                  - $ref: "#/components/schemas/AdapterObjectArray"
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+    post:
+      description: Register your adapter in dataBroker
+      tags:
+        - Adapter management
+      operationId: registerAdapter
+      requestBody:
+        description: Thing description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterAdapterObject'
+      responses:
+        '201':
+          description: Adapter registered
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+    put:
+      description: Update registered adapter
+      tags:
+        - Adapter management
+      operationId: updateAdapter
+      requestBody:
+        description: Updated adapter object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterAdapterObject'
+      responses:
+        '200':
+          description: Adapter updated
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+    delete:
+      description: Unregister your adapter from dataBroker
+      tags:
+        - Adapter management
+      operationId: unregisterAdapter
+      parameters:
+        - name: id
+          schema:
+            type: string
+          required: true
+          in: query
+      responses:
+        '204':
+          description: Adapter removed
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+  /api/adapterConnection:
+    get:
+      description: Retrieve your registered adapterConnections
+      tags:
+        - Adapter management
+      operationId: getAdapterConnection
+      parameters:
+        - name: id
+          schema:
+            type: string
+          required: false
+          in: query
+      responses:
+        '200':
+          description: getAdapterConnection response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AdapterConnectionObject"
+                  - $ref: "#/components/schemas/AdapterConnectionObjectArray"
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+    post:
+      description: Register your adapterConnection in dataBroker
+      tags:
+        - Adapter management
+      operationId: registerAdapterConnection
+      requestBody:
+        description: AdapterConnection description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdapterConnectionObject'
+      responses:
+        '201':
+          description: AdapterConnection registered
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+    put:
+      description: Update registered adapterConnection
+      tags:
+        - Adapter management
+      operationId: updateAdapterConnection
+      requestBody:
+        description: Updated adapterConnection object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdapterConnectionObject'
+      responses:
+        '202':
+          description: AdapterConnection updated
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+    delete:
+      description: Remove your adapterConnection from dataBroker
+      tags:
+        - Adapter management
+      operationId: unregisterAdapterConnection
+      parameters:
+        - name: id
+          schema:
+            type: string
+          required: true
+          in: query
+      responses:
+        '204':
+          description: AdapterConnection removed
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObject"
+        default: { description: unexpected error }
+components:
+  securitySchemes: { }
+  schemas:
+    GenericJson:
+      type: object
+    AdapterObjectArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/AdapterObject'
+    AdapterObject:
+      type: object
+      properties:
+        uuid:
+          type: string
+        baseUri:
+          type: string
+        license:
+          type: string
+        security:
+          type: string
+        "staticParams":
+          type: object
+        "adapterConnections":
+          type: array
+          items:
+            $ref: '#/components/schemas/AdapterConnectionObject'
+    RegisterAdapterObject:
+      type: object
+      required:
+        - baseUri
+        - license
+      properties:
+        baseUri:
+          type: string
+        license:
+          type: string
+        security:
+          type: string
+        "staticParams":
+          type: object
+        "adapterConnections":
+          type: array
+          items:
+            $ref: '#/components/schemas/AdapterConnectionObject'
+    AdapterConnectionObjectArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/AdapterConnectionObject'
+    AdapterConnectionObject:
+      type: object
+      required:
+        - oid
+        - pid
+        - url
+        - type
+      properties:
+        oid:
+          type: string
+        pid:
+          type: string
+        url:
+          type: string
+        type:
+          type: string
+          enum: [ property, action, event ]
+        adapterId:
+          type: string
+        optionalParams:
+          type: array
+          items:
+            type: string
+        params:
+          type: array
+          items:
+            type: string
+    TdObjectArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/TdObject'
+    TdObject:
+      type: object
+      properties:
+        id:
+          type: string
+        "@context":
+          type: object
+        "properties":
+          type: object
+        "events":
+          type: object
+        "actions":
+          type: object
+    ErrorObject:
+      type: object
+      properties:
+        message:
+          type: string
+        stdErrorMsg:
+          type: string
+        logId:
+          type: string
+      example: # Sample object
+        message: Object not found
+        name: OID_IID_NOT_FOUND
+  headers: { }
+  responses:
+    EmptyResponse:
+      description: "Action executed successfully"
+    PropertyResponse:
+      description: "Response defined by adapter"
+      content:
+        application/json:
+          schema: { }
+    ErrorResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorObject'
+  requestBodies: { }
+tags: [
+  { name: Registrations },
+  { name: Adapter management }
+]
+security: [ ]

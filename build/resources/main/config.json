@@ -1,0 +1,19 @@
+{
+  "southbound": {
+    "port": 8081
+  },
+  "northbound": {
+    "port": 8888
+  },
+  "redis": {
+    "server": "localhost",
+    "port": 6379
+  },
+  "wot": {
+    "port": 9001,
+    "host": "ads3"
+  },
+  "databroker": {
+    "id": "db1"
+  }
+}
