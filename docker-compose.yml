@@ -1,0 +1,22 @@
+version: '2.4'
+services:
+  cache-db:
+    #    command: redis-stack
+    image: redis/redis-stack:latest
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+    ports:
+      - mode: ingress
+        target: 6379
+        published: 6379
+        protocol: tcp
+      - mode: ingress
+        target: 8001
+        published: 8001
+        protocol: tcp
+    restart: unless-stopped
+  #    volumes:
+  #    - type: volume
+  #      source: aur_redis
+  #      target: /data
+  #      volume: {}
