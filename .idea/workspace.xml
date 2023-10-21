@@ -5,33 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f445096-01f1-40e5-9cc0-02278aefb0ff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/climathon/clima_api/verticles/ApiVerticle.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/api.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/doc/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/redoc/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/favicon-16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/favicon-32x32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/oauth2-redirect.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-initializer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-bundle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-bundle.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle-core.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle-core.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-es-bundle.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-standalone-preset.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui-standalone-preset.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/swagger-ui/swagger-ui.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/logFile.2023-10-20.0.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.2/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.2/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.2/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.2/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.2/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.2/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/climathon/clima_api/MainVerticle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/climathon/clima_api/MainVerticle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/clima-api-1.0.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/clima-api-1.0.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/api.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/logFile.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/logFile.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/api.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +65,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging main",
     "last_opened_file_path": "/Users/jorgemac/Desktop/climathon/2023/clima-api/src/main"
   }
 }]]></component>
