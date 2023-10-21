@@ -25,6 +25,7 @@ suspend fun postIniciative(ctx: RoutingContext, vertx: Vertx, logger: Logger, ai
     "other iniciatives"
   )
   val iniciative = JsonObject()
+  iniciative.put("id", java.util.UUID.randomUUID().toString())
   iniciative.put("label", body.getString("label"))
   iniciative.put("offensive", offensive)
   iniciative.put("content", body.getString("content"))
@@ -33,6 +34,8 @@ suspend fun postIniciative(ctx: RoutingContext, vertx: Vertx, logger: Logger, ai
   iniciative.put("votes", 0)
   iniciative.put("approved", false)
   iniciative.put("rejected", if (offensive) true else false)
+  iniciative.put("rejectedReason", if (offensive) "Offensive content" else "")
+  iniciative.put("created", System.currentTimeMillis())
   // store in redis as hash
   vertx.eventBus().request<String>(
     "db.set",
@@ -44,15 +47,15 @@ suspend fun postIniciative(ctx: RoutingContext, vertx: Vertx, logger: Logger, ai
     arrayOf("iniciatives", iniciative.getString("id"))
   ).await()
   ctx.response().statusCode = 200
-  ctx.response()
-    .end("Iniciative stored - offensive: ${offensive} - sustainability: ${sustainability} - similarity: ${similarity}")
-//  ctx.response().end("Iniciative stored")
+  ctx.json(JsonObject().put("id", iniciative.getString("id")))
 }
 
 suspend fun getIniciatives(ctx: RoutingContext, vertx: Vertx, logger: Logger) {
   logger.debug("getIniciative called")
   // retrieve iniciatives ids from redis
-  val iniciatives = vertx.eventBus().request<JsonArray>("db.smembers", "iniciatives").await().body()
+  val iniciatives =
+    vertx.eventBus().request<Array<String>>("db.smembers", "iniciatives").await().body()
+
   // retrieve iniciatives from redis
   val iniciativesJson = JsonArray()
   iniciatives.forEach {
@@ -64,44 +67,102 @@ suspend fun getIniciatives(ctx: RoutingContext, vertx: Vertx, logger: Logger) {
 }
 
 
+suspend fun deleteIniciative(ctx: RoutingContext, vertx: Vertx, logger: Logger) {
+  logger.debug("deleteIniciative called")
+  // retrieve iniciatives ids from redis
+  logger.debug(ctx.pathParam("id"))
+  val iniciativeExists =
+    vertx.eventBus().request<Boolean>("db.sismember", arrayOf("iniciatives", ctx.pathParam("id"))).await().body()
+  logger.debug("Iniciative exists: ${iniciativeExists}")
+
+  // remove from iniciatives set
+  vertx.eventBus().request<String>("db.srem", arrayOf("iniciatives", ctx.pathParam("id"))).await()
+  logger.debug("A")
+
+  // remove from redis
+  vertx.eventBus().request<String>(
+    "db.del",
+    "iniciative" + ctx.pathParam("id")
+  ).await()
+  logger.debug("B")
+
+  ctx.response().statusCode = 200
+  ctx.json(JsonObject().put("msg", "Removed"))
+}
+
 suspend fun voteForIniciative(ctx: RoutingContext, vertx: Vertx, logger: Logger) {
   logger.debug("Vote for iniciative called")
-  val params = ctx.queryParams()
+  val params = ctx.pathParams()
   val id = params.get("id")
   // retrieve iniciative id from redis
-  val iniciative = vertx.eventBus().request<String>("db.get", "iniciative" + id).await().body()
+  val iniciativeString = vertx.eventBus().request<String>("db.get", "iniciative" + id).await().body()
   // if id is not found
-  if(iniciative.isNullOrEmpty()) {
+  if (iniciativeString.isNullOrEmpty()) {
     ctx.response().statusCode = 404
-    ctx.response().end("Iniciative not found")
+    ctx.json(JsonObject().put("msg", "Iniciative not found"))
     return
   }
+  val iniciative = JsonObject(iniciativeString)
   // TODO
   // add 1 vote
-  // retrieve iniciative from redis
-  val iniciativeJson = JsonObject(iniciative)
+  iniciative.put("votes", iniciative.getInteger("votes") + 1)
+  // back to redis
+  vertx.eventBus().request<String>(
+    "db.set",
+    arrayOf("iniciative" + iniciative.getString("id"), iniciative.toString())
+  ).await()
   ctx.response().statusCode = 200
-  ctx.response().end("Test api called")
+  ctx.json(JsonObject().put("votes", iniciative.getInteger("votes")))
 }
 
 suspend fun approveIniciative(ctx: RoutingContext, vertx: Vertx, logger: Logger) {
   logger.debug("Approve iniciative called")
-  val params = ctx.queryParams()
-  val body = ctx.body().asJsonObject()
-  logger.debug("Body: ${body.toString()}")
-  logger.debug("Params: ${params.toString()}")
+  val params = ctx.pathParams()
+  val id = params.get("id")
+  // retrieve iniciative id from redis
+  val iniciativeString = vertx.eventBus().request<String>("db.get", "iniciative" + id).await().body()
+  // if id is not found
+  if (iniciativeString.isNullOrEmpty()) {
+    ctx.response().statusCode = 404
+    ctx.json(JsonObject().put("msg", "Iniciative not found"))
+    return
+  }
+  val iniciative = JsonObject(iniciativeString)
+  // approve
+  iniciative.put("approved", true)
+  // back to redis
+  vertx.eventBus().request<String>(
+    "db.set",
+    arrayOf("iniciative" + iniciative.getString("id"), iniciative.toString())
+  ).await()
   ctx.response().statusCode = 200
-  ctx.response().end("Test api called")
+  ctx.json(JsonObject().put("msg", "Iniciative approved"))
 }
 
 suspend fun rejectIniciative(ctx: RoutingContext, vertx: Vertx, logger: Logger) {
   logger.debug("Reject iniciative called")
-  val params = ctx.queryParams()
-  val body = ctx.body().asJsonObject()
-  logger.debug("Body: ${body.toString()}")
-  logger.debug("Params: ${params.toString()}")
+  val params = ctx.pathParams()
+  val id = params.get("id")
+  // retrieve iniciative id from redis
+  val iniciativeString = vertx.eventBus().request<String>("db.get", "iniciative" + id).await().body()
+  // if id is not found
+  if (iniciativeString.isNullOrEmpty()) {
+    ctx.response().statusCode = 404
+    ctx.json(JsonObject().put("msg", "Iniciative not found"))
+    return
+  }
+  val iniciative = JsonObject(iniciativeString)
+  // approve
+  iniciative.put("approved", false)
+  iniciative.put("rejected", true)
+  iniciative.put("rejectedReason", "Rejected by city council")
+  // back to redis
+  vertx.eventBus().request<String>(
+    "db.set",
+    arrayOf("iniciative" + iniciative.getString("id"), iniciative.toString())
+  ).await()
   ctx.response().statusCode = 200
-  ctx.response().end("Test api called")
+  ctx.json(JsonObject().put("msg", "Iniciative rejected"))
 }
 
 //suspend fun getPropertyApi(ctx: RoutingContext, vertx: Vertx, logger: Logger) {

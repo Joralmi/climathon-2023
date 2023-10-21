@@ -5,10 +5,12 @@ import io.vertx.ext.web.handler.StaticHandler
 import io.vertx.ext.web.openapi.RouterBuilder
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.await
+import io.vertx.kotlin.coroutines.dispatcher
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
 class ApiVerticle : CoroutineVerticle() {
-  private val AiTools = AiTools()
+  private val aiTools = AiTools()
   private val logger = LoggerFactory.getLogger(ApiVerticle::class.java)
 
   override suspend fun start() {
@@ -31,23 +33,35 @@ class ApiVerticle : CoroutineVerticle() {
     /**
      * Registration Routes
      */
-//    routerBuilder.operation("registerThing").handler { ctx ->
-//      launch(vertx.dispatcher()) { registerThingApi(ctx, vertx) }
-//    }
-//    routerBuilder.operation("getThing").handler { ctx ->
-//      launch(vertx.dispatcher()) { getThingsApi(ctx, vertx) }
-//    }
-//    routerBuilder.operation("updateThing").handler { ctx ->
-//      launch(vertx.dispatcher()) { putThingApi(ctx, vertx) }
-//    }
-//    routerBuilder.operation("deleteThing").handler { ctx ->
-//      launch(vertx.dispatcher()) { deleteThingApi(ctx, vertx) }
-//    }
+    routerBuilder.operation("registerInitiative").handler { ctx ->
+      launch(vertx.dispatcher()) { postIniciative(ctx, vertx, logger, aiTools) }
+    }
+    routerBuilder.operation("getInitiative").handler { ctx ->
+      launch(vertx.dispatcher()) { getIniciatives(ctx, vertx, logger) }
+    }
+    routerBuilder.operation("deleteInitiative").handler { ctx ->
+      launch(vertx.dispatcher()) { deleteIniciative(ctx, vertx, logger) }
+    }
+    routerBuilder.operation("voteForInitiative").handler { ctx ->
+      launch(vertx.dispatcher()) { voteForIniciative(ctx, vertx, logger) }
+    }
+    routerBuilder.operation("approveInitiative").handler { ctx ->
+      launch(vertx.dispatcher()) { approveIniciative(ctx, vertx, logger) }
+    }
+    routerBuilder.operation("rejectInitiative").handler { ctx ->
+      launch(vertx.dispatcher()) { rejectIniciative(ctx, vertx, logger) }
+    }
 
     /**
      * Validation Routes
      */
     val router = routerBuilder.createRouter()
+
+    router.route("/api/*").failureHandler {
+      logger.debug("Failure: " + it.failure().message)
+      it.response().setStatusCode(500).end()
+
+    }
 
     /**
      * Static files
