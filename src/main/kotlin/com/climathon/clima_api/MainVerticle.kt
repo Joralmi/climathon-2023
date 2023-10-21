@@ -1,6 +1,7 @@
 package com.climathon.clima_api
 
 import com.climathon.clima_api.verticles.ApiVerticle
+import com.climathon.clima_api.verticles.RedisVerticle
 import io.vertx.core.DeploymentOptions
 import io.vertx.config.ConfigRetriever
 import io.vertx.config.ConfigRetrieverOptions
@@ -29,7 +30,11 @@ class MainVerticle : CoroutineVerticle() {
         exitProcess(0)
       }
       // Verticles
+      vertx.deployVerticle(RedisVerticle(), DeploymentOptions().setConfig(config!!.getJsonObject("redis"))).await()
+      // wait 2 seconds for redis to start
+      Thread.sleep(2000)
       vertx.deployVerticle(ApiVerticle()).await()
+
       logger.info("Application started")
     } catch (exception: Exception) {
       logger.error("Could not start application: " + exception.message)

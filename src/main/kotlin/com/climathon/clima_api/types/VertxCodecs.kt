@@ -1,4 +1,4 @@
-package eu.bavenir.databroker.types
+package com.climathon.clima_api.types
 
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.eventbus.MessageCodec

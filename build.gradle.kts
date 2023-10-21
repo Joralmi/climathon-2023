@@ -36,7 +36,7 @@ dependencies {
   implementation("io.vertx:vertx-web-openapi")
   implementation("io.vertx:vertx-lang-kotlin-coroutines")
   implementation("io.vertx:vertx-lang-kotlin")
-  implementation("io.vertx:vertx-redis-client")
+  implementation("io.vertx:vertx-redis-client:4.4.4")
   implementation(kotlin("stdlib-jdk8"))
   // Logger
   implementation("org.slf4j:slf4j-api:2.0.7")

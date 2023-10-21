@@ -1,14 +1,14 @@
 package com.climathon.clima_api.verticles
 
+import com.climathon.clima_api.microservices.AiTools
 import io.vertx.ext.web.handler.StaticHandler
 import io.vertx.ext.web.openapi.RouterBuilder
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.await
-import io.vertx.kotlin.coroutines.dispatcher
-import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
 class ApiVerticle : CoroutineVerticle() {
+  private val AiTools = AiTools()
   private val logger = LoggerFactory.getLogger(ApiVerticle::class.java)
 
   override suspend fun start() {

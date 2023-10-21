@@ -1,4 +1,4 @@
-package eu.bavenir.databroker.types
+package com.climathon.clima_api.types
 
 enum class StdErrorMsg {
   UNKNOWN,

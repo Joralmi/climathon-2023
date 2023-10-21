@@ -1,11 +1,11 @@
 package eu.bavenir.databroker.core
 
+import com.climathon.clima_api.types.CustomException
+import com.climathon.clima_api.types.StdErrorMsg
 import io.vertx.core.Future
 import io.vertx.core.Promise
 import io.vertx.core.Vertx
 import io.vertx.core.eventbus.Message
-import io.vertx.core.eventbus.ReplyException
-import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.coroutines.await
 import io.vertx.redis.client.*
 import org.slf4j.LoggerFactory
@@ -63,9 +63,21 @@ class RedisFactory(vertx: Vertx, db: String) {
     }
   }
 
+  suspend fun keys(): String {
+    // Use scan in future releases, command keys is not efficient for large DBs
+    val res = api.keys("*")
+      .onFailure { throw CustomException("Redis set fail reading", StdErrorMsg.UNKNOWN, 503) }
+      .await()
+    if (res != null) {
+      return (res.toString())
+    } else {
+      throw CustomException("Redis no keys found in DB", StdErrorMsg.OID_IID_NOT_FOUND, 404)
+    }
+  }
+
   suspend fun get(message: Message<String>) {
     val key = message.body()
-    val res = api.jsonget(key)
+    val res = api.get(key)
       .onFailure { err -> handleRedisFailureStr(message, err) }
       .await()
     if (res != null) {
@@ -73,6 +85,17 @@ class RedisFactory(vertx: Vertx, db: String) {
     } else {
       message.reply(null)
 //        message.fail(404,"Nothing found")
+    }
+  }
+
+  suspend fun get(message: String): String {
+    val res = api.get(message)
+      .onFailure { throw CustomException("Redis Service unavailable", StdErrorMsg.UNKNOWN, 503) }
+      .await()
+    if (res != null) {
+      return (res.toString())
+    } else {
+      throw CustomException("Redis id not found", StdErrorMsg.OID_IID_NOT_FOUND, 404)
     }
   }
 
@@ -89,6 +112,17 @@ class RedisFactory(vertx: Vertx, db: String) {
       message.reply(res.toString())
     } else {
       message.fail(400, "Input error storing in Redis")
+    }
+  }
+
+  suspend fun set(message: List<String>) {
+    if (message.size != 2) {
+      throw CustomException("Redis set has only 2 chars", StdErrorMsg.WRONG_BODY, 404)
+    }
+    try {
+      api.set(message).await()
+    } catch (e: Exception) {
+      throw CustomException("Redis Service unavailable", StdErrorMsg.UNKNOWN, 503)
     }
   }
 
