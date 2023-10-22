@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <label>Initiative Form</label>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+    input[type="text"],
+    textarea,
+    input[type="checkbox"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<form>
+  <label for="label">Label:</label>
+  <input type="text" id="label" name="label" placeholder="Enter a label">
+
+  <label for="department">Department:</label>
+  <input type="text" id="department" name="department" placeholder="Select city department">
+
+  <label for="content">Content:</label>
+  <textarea id="content" name="content" placeholder="Enter your content" rows="6"></textarea>
+
+  <label for="yours">Yours:</label>
+  <input type="checkbox" id="yours" name="yours">
+
+  <button id="sendButton" type="button">Send</button>
+</form>
+
+<!-- Add SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.5/dist/sweetalert2.all.min.js"></script>
+<script>
+  document.getElementById("sendButton").addEventListener("click", function () {
+      const label = document.getElementById("label").value;
+      const content = document.getElementById("content").value;
+      const department = document.getElementById("department").value;
+      const yours = document.getElementById("yours").checked;
+
+      if (label && content) {
+          const data = {
+              label: label,
+              content: content,
+              department: department,
+              yours: yours
+          };
+
+          // Send the data to the API
+          fetch('/api/user/initiatives', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          })
+          .then(response => {
+              if (response.status === 200) {
+                  // Show success notification
+                  Swal.fire({
+                      icon: 'success',
+                      label: 'Initiative sent successfully!',
+                      timer: 1500, // Auto-close after 1.5 seconds
+                      showConfirmButton: false
+                  });
+
+                  // Clear input fields
+                  document.getElementById("label").value = "";
+                  document.getElementById("content").value = "";
+                  document.getElementById("department").value = "";
+                  document.getElementById("yours").checked = false;
+              } else {
+                  // Show error notification
+                  Swal.fire({
+                      icon: 'error',
+                      label: 'Error',
+                      text: 'Error sending the initiative.'
+                  });
+              }
+          })
+          .catch(error => {
+              // Show error notification
+              Swal.fire({
+                  icon: 'error',
+                  label: 'Error',
+                  text: 'An error occurred while sending the initiative.'
+              });
+          });
+      } else {
+          // Show validation error notification
+          Swal.fire({
+              icon: 'error',
+              label: 'Validation Error',
+              text: 'label and content are required.'
+          });
+      }
+  });
+</script>
+</body>
+</html>

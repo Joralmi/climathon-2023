@@ -1,0 +1,31 @@
+[
+  {
+    "label": "Ride-sharing platform",
+    "content": "I think a municipal-supported platform for ride-sharing could be beneficial.",
+    "department": "Transport",
+    "yours": true,
+    "votes": 7,
+    "approved": true
+  },
+  {
+    "label": "Green Bratislava",
+    "content": "I really like the green spaces in the city. I think we should have more of them. I have prepared a list of places where we could plant new trees, and I would like to share it with you. All of funds for the trees are already secured.",
+    "department": "Urban Green Space",
+    "approved": false,
+    "votes": 6
+  },
+  {
+    "label": "Green spaces",
+    "content": "I found that there is more ecological asphalt available. I think we should use it more.",
+    "department": "Transport",
+    "approved": true,
+    "votes": 0
+  },
+  {
+    "label": "Better digital maps",
+    "content": "There are lot of new green spaces in the city, but they are not listed on the digital maps. We should invest more time in keeping them up to date.",
+    "department": "Urban Green Space",
+    "approved": true,
+    "votes": 17
+  }
+]

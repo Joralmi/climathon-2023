@@ -10,12 +10,14 @@ import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
 class ApiVerticle : CoroutineVerticle() {
-  private val aiTools = AiTools()
+  private lateinit var aiTools: AiTools
   private val logger = LoggerFactory.getLogger(ApiVerticle::class.java)
 
   override suspend fun start() {
     // Build Vert.x Web router
     // path to yaml file in resources
+    // init ai tools
+    aiTools = AiTools(vertx)
     val url = javaClass.getResource("/api.yaml")
     if (url === null) {
       throw Exception("api.yaml not found")
@@ -34,22 +36,22 @@ class ApiVerticle : CoroutineVerticle() {
      * Registration Routes
      */
     routerBuilder.operation("registerInitiative").handler { ctx ->
-      launch(vertx.dispatcher()) { postIniciative(ctx, vertx, logger, aiTools) }
+      launch(vertx.dispatcher()) { postInitiative(ctx, vertx, logger, aiTools) }
     }
     routerBuilder.operation("getInitiative").handler { ctx ->
-      launch(vertx.dispatcher()) { getIniciatives(ctx, vertx, logger) }
+      launch(vertx.dispatcher()) { getInitiatives(ctx, vertx, logger) }
     }
     routerBuilder.operation("deleteInitiative").handler { ctx ->
-      launch(vertx.dispatcher()) { deleteIniciative(ctx, vertx, logger) }
+      launch(vertx.dispatcher()) { deleteInitiative(ctx, vertx, logger) }
     }
     routerBuilder.operation("voteForInitiative").handler { ctx ->
-      launch(vertx.dispatcher()) { voteForIniciative(ctx, vertx, logger) }
+      launch(vertx.dispatcher()) { voteForInitiative(ctx, vertx, logger) }
     }
     routerBuilder.operation("approveInitiative").handler { ctx ->
-      launch(vertx.dispatcher()) { approveIniciative(ctx, vertx, logger) }
+      launch(vertx.dispatcher()) { approveInitiative(ctx, vertx, logger) }
     }
     routerBuilder.operation("rejectInitiative").handler { ctx ->
-      launch(vertx.dispatcher()) { rejectIniciative(ctx, vertx, logger) }
+      launch(vertx.dispatcher()) { rejectInitiative(ctx, vertx, logger) }
     }
 
     /**
@@ -57,10 +59,13 @@ class ApiVerticle : CoroutineVerticle() {
      */
     val router = routerBuilder.createRouter()
 
+    router.route("/api/prefill").handler { ctx ->
+      launch(vertx.dispatcher()) { prefillDb(ctx, vertx, logger) }
+    }
+
     router.route("/api/*").failureHandler {
       logger.debug("Failure: " + it.failure().message)
       it.response().setStatusCode(500).end()
-
     }
 
     /**
@@ -78,10 +83,14 @@ class ApiVerticle : CoroutineVerticle() {
     router.get("/doc/swagger/*").handler(StaticHandler.create(("swagger-ui")))
     router.get("/doc/redoc/*").handler(StaticHandler.create("redoc"))
 
+    // UI
+    router.get("/postui").handler(StaticHandler.create("postui"))
+    router.get("/").handler(StaticHandler.create("ui"))
+    router.get("/*").handler(StaticHandler.create("ui"))
     /**
      * Start the server
      */
-    vertx.createHttpServer().requestHandler(router).listen(config.getInteger("port", 8080)).await()
+    vertx.createHttpServer().requestHandler(router).listen(config.getInteger("port", 8081)).await()
   }
 
 }
